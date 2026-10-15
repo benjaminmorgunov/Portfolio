@@ -1,14 +1,15 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { coverImage, sections } from "@/lib/photos";
+import { buildRows, type Row } from "@/lib/layout";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Фотографическое портфолио" },
-      { name: "description", content: "Авторское портфолио фотографа: культурные, образовательные и спортивные события, постановочная съёмка и собственные проекты." },
-      { property: "og:title", content: "Фотографическое портфолио" },
-      { property: "og:description", content: "Авторское портфолио фотографа." },
+      { title: "Вениамин Моргунов — фотография" },
+      { name: "description", content: "Портфолио фотографа Вениамина Моргунова: спортивные, научные и культурные мероприятия, художественная фотография." },
+      { property: "og:title", content: "Вениамин Моргунов — фотография" },
+      { property: "og:description", content: "Спортивные, научные и культурные мероприятия, художественная фотография." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -16,13 +17,50 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-// Редакционный ритм: позиции в 12-колоночной сетке (десктоп) и в 6-колоночной (мобильные).
-// Журнальный ритм: часть снимков чуть уже и смещена — отступы между фото при этом одинаковые.
-const layout = ["w-full", "ml-auto w-4/5", "w-full", "w-3/4", "w-full", "mx-auto w-5/6", "w-full", "ml-auto w-3/4", "w-4/5"];
-const placeholderRatios = ["3/2", "2/3", "4/5", "3/2", "1/1", "2/3", "16/9", "4/5", "3/2"];
+// Свой ритм рядов для каждого раздела (сумма пропорций кадров в ряду), отдельно для компьютера и телефона.
+const desktop = [
+  [3.2, 1.9, 3.8, 2.4],
+  [2.4, 3.6, 1.7, 3.0],
+  [3.0, 1.8, 3.4, 4.0],
+  [2.2, 1.4, 3.4, 2.6],
+];
+const mobile = [
+  [1.5, 2.1, 1.3],
+  [2.1, 1.5, 1.4],
+  [1.5, 1.3, 2.1],
+  [1.4, 2.1, 1.5],
+];
+
+function Rows({ rows, gap, onOpen, className }: { rows: Row[]; gap: string; onOpen: (s: string) => void; className: string }) {
+  return (
+    <div className={className} style={{ rowGap: gap }}>
+      {rows.map((r, i) => (
+        <div key={i} className="flex" style={{ gap, width: `${r.width * 100}%`, alignSelf: r.align }}>
+          {r.photos.map((p) => (
+            <button key={p.src} type="button" onClick={() => onOpen(p.src)} className="block min-w-0 cursor-zoom-in" style={{ flex: `${p.ratio} 1 0`, aspectRatio: String(p.ratio) }} aria-label="Открыть фотографию">
+              <img src={p.src} alt="" loading="lazy" decoding="async" className="block h-full w-full" />
+            </button>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
 
 function Index() {
   const [open, setOpen] = useState<string | null>(null);
+  const [onDark, setOnDark] = useState(true);
+  const darkEnd = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = darkEnd.current;
+    if (!el) return;
+    const update = () => setOnDark(el.getBoundingClientRect().top > 60);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
+  }, []);
+
   useEffect(() => {
     if (!open) return;
     const k = (e: KeyboardEvent) => e.key === "Escape" && setOpen(null);
@@ -32,44 +70,36 @@ function Index() {
   }, [open]);
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-background text-foreground">
-      <header className="flex min-h-svh items-center justify-center p-6 md:p-12">
-        {coverImage ? (
-          <img src={coverImage} alt="" className="pointer-events-none max-h-[calc(100svh-6rem)] w-auto max-w-full select-none object-contain" draggable={false} fetchPriority="high" />
-        ) : (
-          <div className="aspect-[3/4] w-full max-w-md bg-muted" />
+    <div className="min-h-screen overflow-x-clip bg-background text-foreground">
+      <header className="bg-ink">
+        {coverImage && (
+          <img src={coverImage.src} alt="Вениамин Моргунов — фотография, видеосъёмка, монтаж" width={1880} height={Math.round(1880 / coverImage.ratio)} className="pointer-events-none block h-auto w-full select-none" draggable={false} fetchPriority="high" />
         )}
       </header>
 
-      <nav className="sticky top-0 z-10 bg-background/95 px-6 py-4 md:px-12">
-        <ul className="flex flex-wrap justify-center gap-x-8 gap-y-2 text-xs tracking-[0.18em] uppercase">
+      <nav className={`z-10 px-4 py-4 md:sticky md:top-0 md:px-12 md:py-4 ${onDark ? "bg-ink text-ink-foreground" : "bg-background text-foreground"}`}>
+        <ul className="mx-auto grid max-w-[1240px] grid-cols-2 gap-x-4 gap-y-3 text-center text-[11px] leading-tight tracking-[0.14em] uppercase md:flex md:justify-center md:gap-x-12 md:text-xs md:tracking-[0.2em]">
           {sections.map((s) => (
-            <li key={s.id}><a href={`#${s.id}`} className="hover:opacity-50">{s.title}</a></li>
+            <li key={s.id}><a href={`#${s.id}`} className="inline-block py-1 hover:opacity-50">{s.title}</a></li>
           ))}
         </ul>
       </nav>
 
-      <main className="px-5 md:px-12">
-        {sections.map((s) => (
-          <section key={s.id} id={s.id} className="scroll-mt-20 pt-28 pb-16 md:pt-44">
-            <h2 className="mb-14 text-sm tracking-[0.22em] uppercase md:mb-20">{s.title}</h2>
-            <div className="mx-auto max-w-[1400px] columns-2 gap-3 md:columns-3 md:gap-5">
-              {(s.photos.length ? s.photos : placeholderRatios).map((p, i) =>
-                s.photos.length ? (
-                  <button key={p} type="button" onClick={() => setOpen(p ?? null)} className={`${layout[i % layout.length]} mb-3 block break-inside-avoid cursor-zoom-in md:mb-5`}>
-                    <img src={p} alt="" loading="lazy" decoding="async" className="block h-auto w-full" />
-                  </button>
-                ) : (
-                  <div key={i} className={`${layout[i % layout.length]} mb-3 break-inside-avoid bg-muted md:mb-5`} style={{ aspectRatio: p }} />
-                ),
-              )}
-            </div>
+      <div className="h-[22svh] bg-gradient-to-b from-ink to-background md:h-[28svh]" />
+      <div ref={darkEnd} />
+
+      <main className="px-3 pb-24 md:px-12 md:pb-36">
+        {sections.map((s, si) => (
+          <section key={s.id} id={s.id} className={`mx-auto max-w-[1240px] scroll-mt-24 ${si ? "pt-20 md:pt-32" : ""}`}>
+            <h2 className="mb-5 text-[13px] tracking-[0.22em] uppercase md:mb-8 md:text-sm md:tracking-[0.26em]">{s.title}</h2>
+            <Rows rows={buildRows(s.photos, desktop[si % 4]!, 1.8)} gap="12px" onOpen={setOpen} className="hidden flex-col md:flex" />
+            <Rows rows={buildRows(s.photos, mobile[si % 4]!, 1.0)} gap="6px" onOpen={setOpen} className="flex flex-col md:hidden" />
           </section>
         ))}
       </main>
 
       {open && (
-        <div role="dialog" aria-modal="true" onClick={() => setOpen(null)} className="fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-background p-4 md:p-10">
+        <div role="dialog" aria-modal="true" aria-label="Фотография" onClick={() => setOpen(null)} className="fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-background p-3 md:p-10">
           <img src={open} alt="" className="max-h-full max-w-full object-contain" />
         </div>
       )}
