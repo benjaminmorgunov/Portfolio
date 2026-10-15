@@ -4,7 +4,7 @@ type G = Record<string, string>;
 const sort = (g: G) =>
   Object.keys(g)
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
-    .map((k) => g[k]);
+    .map((k) => g[k] as string);
 
 const opts = { eager: true, import: "default", query: "?url" } as const;
 

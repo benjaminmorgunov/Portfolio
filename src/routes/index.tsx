@@ -67,7 +67,7 @@ function Index() {
             <div className="mx-auto grid max-w-[1500px] grid-cols-6 items-start gap-x-4 gap-y-8 md:grid-cols-12 md:gap-x-8 md:gap-y-12">
               {(s.photos.length ? s.photos : placeholderRatios).map((p, i) =>
                 s.photos.length ? (
-                  <button key={p} type="button" onClick={() => setOpen(p)} className={`${layout[i % layout.length]} block cursor-zoom-in`}>
+                  <button key={p} type="button" onClick={() => setOpen(p ?? null)} className={`${layout[i % layout.length]} block cursor-zoom-in`}>
                     <img src={p} alt="" loading="lazy" decoding="async" className="block h-auto w-full" />
                   </button>
                 ) : (
