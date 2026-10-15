@@ -8,3 +8,5 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+- Photos load by folder via import.meta.glob in src/lib/photos.ts (cover in src/assets/cover, categories in src/assets/portfolio/<n-name>, sorted by filename); add/remove files to change the site without code edits.
