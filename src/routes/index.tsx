@@ -17,19 +17,8 @@ export const Route = createFileRoute("/")({
 });
 
 // Редакционный ритм: позиции в 12-колоночной сетке (десктоп) и в 6-колоночной (мобильные).
-const layout = [
-  "col-span-6 md:col-span-5",
-  "col-span-3 md:col-span-3 md:mt-16",
-  "col-span-3 md:col-span-4",
-  "col-span-4 md:col-span-3 md:col-start-2",
-  "col-span-2 md:col-span-4 md:mt-10",
-  "col-span-6 md:col-span-4",
-  "col-span-3 md:col-span-4 md:mt-6",
-  "col-span-3 md:col-span-3",
-  "col-span-6 md:col-span-4 md:mt-12",
-  "col-span-3 md:col-span-3 md:col-start-3",
-  "col-span-3 md:col-span-5",
-];
+// Журнальный ритм: часть снимков чуть уже и смещена — отступы между фото при этом одинаковые.
+const layout = ["w-full", "ml-auto w-4/5", "w-full", "w-3/4", "w-full", "mx-auto w-5/6", "w-full", "ml-auto w-3/4", "w-4/5"];
 const placeholderRatios = ["3/2", "2/3", "4/5", "3/2", "1/1", "2/3", "16/9", "4/5", "3/2"];
 
 function Index() {
@@ -64,14 +53,14 @@ function Index() {
         {sections.map((s) => (
           <section key={s.id} id={s.id} className="scroll-mt-20 pt-28 pb-16 md:pt-44">
             <h2 className="mb-14 text-sm tracking-[0.22em] uppercase md:mb-20">{s.title}</h2>
-            <div className="mx-auto grid max-w-[1400px] grid-cols-6 items-start gap-3 md:grid-cols-12 md:gap-5">
+            <div className="mx-auto max-w-[1400px] columns-2 gap-3 md:columns-3 md:gap-5">
               {(s.photos.length ? s.photos : placeholderRatios).map((p, i) =>
                 s.photos.length ? (
-                  <button key={p} type="button" onClick={() => setOpen(p ?? null)} className={`${layout[i % layout.length]} block cursor-zoom-in`}>
+                  <button key={p} type="button" onClick={() => setOpen(p ?? null)} className={`${layout[i % layout.length]} mb-3 block break-inside-avoid cursor-zoom-in md:mb-5`}>
                     <img src={p} alt="" loading="lazy" decoding="async" className="block h-auto w-full" />
                   </button>
                 ) : (
-                  <div key={i} className={`${layout[i % layout.length]} bg-muted`} style={{ aspectRatio: p }} />
+                  <div key={i} className={`${layout[i % layout.length]} mb-3 break-inside-avoid bg-muted md:mb-5`} style={{ aspectRatio: p }} />
                 ),
               )}
             </div>
