@@ -18,17 +18,17 @@ export const Route = createFileRoute("/")({
 
 // Редакционный ритм: позиции в 12-колоночной сетке (десктоп) и в 6-колоночной (мобильные).
 const layout = [
-  "col-span-6 md:col-span-7 md:col-start-1",
-  "col-span-4 col-start-3 md:col-span-3 md:col-start-9 md:mt-40",
-  "col-span-3 md:col-span-3 md:col-start-2 md:-mt-10",
-  "col-span-3 mt-16 md:col-span-4 md:col-start-6 md:mt-24",
-  "col-span-6 md:col-span-5 md:col-start-8 md:mt-8",
-  "col-span-5 md:col-span-4 md:col-start-1 md:mt-32",
-  "col-span-6 md:col-span-8 md:col-start-5 md:-mt-4",
-  "col-span-4 col-start-2 md:col-span-2 md:col-start-3 md:mt-20",
-  "col-span-6 md:col-span-4 md:col-start-6 md:mt-48",
-  "col-span-3 md:col-span-3 md:col-start-10 md:mt-12",
-  "col-span-3 mt-10 md:col-span-6 md:col-start-1 md:mt-16",
+  "col-span-6 md:col-span-5",
+  "col-span-3 md:col-span-3 md:mt-16",
+  "col-span-3 md:col-span-4",
+  "col-span-4 md:col-span-3 md:col-start-2",
+  "col-span-2 md:col-span-4 md:mt-10",
+  "col-span-6 md:col-span-4",
+  "col-span-3 md:col-span-4 md:mt-6",
+  "col-span-3 md:col-span-3",
+  "col-span-6 md:col-span-4 md:mt-12",
+  "col-span-3 md:col-span-3 md:col-start-3",
+  "col-span-3 md:col-span-5",
 ];
 const placeholderRatios = ["3/2", "2/3", "4/5", "3/2", "1/1", "2/3", "16/9", "4/5", "3/2"];
 
@@ -64,7 +64,7 @@ function Index() {
         {sections.map((s) => (
           <section key={s.id} id={s.id} className="scroll-mt-20 pt-28 pb-16 md:pt-44">
             <h2 className="mb-14 text-sm tracking-[0.22em] uppercase md:mb-20">{s.title}</h2>
-            <div className="mx-auto grid max-w-[1500px] grid-cols-6 items-start gap-x-4 gap-y-8 md:grid-cols-12 md:gap-x-8 md:gap-y-12">
+            <div className="mx-auto grid max-w-[1400px] grid-cols-6 items-start gap-3 md:grid-cols-12 md:gap-5">
               {(s.photos.length ? s.photos : placeholderRatios).map((p, i) =>
                 s.photos.length ? (
                   <button key={p} type="button" onClick={() => setOpen(p ?? null)} className={`${layout[i % layout.length]} block cursor-zoom-in`}>
