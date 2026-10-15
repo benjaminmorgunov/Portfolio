@@ -6,14 +6,13 @@ const sort = (g: G) =>
     .sort((a, b) => a.localeCompare(b, undefined, { numeric: true }))
     .map((k) => g[k] as string);
 
-const opts = { eager: true, import: "default", query: "?url" } as const;
 
-const cover = sort(import.meta.glob("/src/assets/cover/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG}", opts) as G);
+const cover = sort(import.meta.glob("/src/assets/cover/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG}", { eager: true, import: "default", query: "?url" }) as G);
 export const coverImage: string | undefined = cover[0];
 
 export const sections = [
-  { id: "sport", title: "Спортивные мероприятия", photos: sort(import.meta.glob("/src/assets/portfolio/1-sport/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG}", opts) as G) },
-  { id: "education", title: "Образовательные и научные мероприятия", photos: sort(import.meta.glob("/src/assets/portfolio/2-education/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG}", opts) as G) },
-  { id: "culture", title: "Культурные мероприятия", photos: sort(import.meta.glob("/src/assets/portfolio/3-culture/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG}", opts) as G) },
-  { id: "art", title: "Художественная фотография", photos: sort(import.meta.glob("/src/assets/portfolio/4-art/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG}", opts) as G) },
+  { id: "sport", title: "Спортивные мероприятия", photos: sort(import.meta.glob("/src/assets/portfolio/1-sport/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG}", { eager: true, import: "default", query: "?url" }) as G) },
+  { id: "education", title: "Образовательные и научные мероприятия", photos: sort(import.meta.glob("/src/assets/portfolio/2-education/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG}", { eager: true, import: "default", query: "?url" }) as G) },
+  { id: "culture", title: "Культурные мероприятия", photos: sort(import.meta.glob("/src/assets/portfolio/3-culture/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG}", { eager: true, import: "default", query: "?url" }) as G) },
+  { id: "art", title: "Художественная фотография", photos: sort(import.meta.glob("/src/assets/portfolio/4-art/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG}", { eager: true, import: "default", query: "?url" }) as G) },
 ];
