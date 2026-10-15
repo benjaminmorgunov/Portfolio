@@ -28,7 +28,7 @@ export function buildRows(photos: Photo[], pattern: number[], minSum: number): R
   if (cur.length) {
     const prev = groups[groups.length - 1];
     const prevSum = prev?.reduce((s, p) => s + p.ratio, 0) ?? 0;
-    if (prev && sum < minSum * 0.8 && prevSum + sum <= Math.max(...pattern) * 1.3) prev.push(...cur);
+    if (prev && (sum < minSum * 0.8 || prevSum + sum <= Math.max(...pattern))) prev.push(...cur);
     else groups.push(cur);
   }
   const aligns: Row["align"][] = ["end", "start", "center"];

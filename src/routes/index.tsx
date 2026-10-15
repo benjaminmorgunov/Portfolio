@@ -55,9 +55,10 @@ function Index() {
   useEffect(() => {
     const el = darkEnd.current;
     if (!el) return;
-    const ob = new IntersectionObserver(([e]) => setOnDark(!!e && (e.isIntersecting || e.boundingClientRect.top > 0)));
-    ob.observe(el);
-    return () => ob.disconnect();
+    const update = () => setOnDark(el.getBoundingClientRect().top > 60);
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
   }, []);
 
   useEffect(() => {
@@ -76,8 +77,8 @@ function Index() {
         )}
       </header>
 
-      <nav className={`sticky top-0 z-10 px-4 py-3 md:px-12 md:py-4 ${onDark ? "bg-ink text-ink-foreground" : "bg-background text-foreground"}`}>
-        <ul className="mx-auto grid max-w-[1240px] grid-cols-2 gap-x-4 gap-y-2 text-center text-[11px] leading-tight tracking-[0.14em] uppercase md:flex md:justify-center md:gap-x-12 md:text-xs md:tracking-[0.2em]">
+      <nav className={`z-10 px-4 py-4 md:sticky md:top-0 md:px-12 md:py-4 ${onDark ? "bg-ink text-ink-foreground" : "bg-background text-foreground"}`}>
+        <ul className="mx-auto grid max-w-[1240px] grid-cols-2 gap-x-4 gap-y-3 text-center text-[11px] leading-tight tracking-[0.14em] uppercase md:flex md:justify-center md:gap-x-12 md:text-xs md:tracking-[0.2em]">
           {sections.map((s) => (
             <li key={s.id}><a href={`#${s.id}`} className="inline-block py-1 hover:opacity-50">{s.title}</a></li>
           ))}
