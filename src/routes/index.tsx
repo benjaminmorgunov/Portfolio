@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { coverImage, sections } from "@/lib/photos";
 import { buildRows, type Row } from "@/lib/layout";
 
@@ -13,16 +13,17 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
+    links: coverImage ? [{ rel: "preload", as: "image", href: coverImage.src, fetchpriority: "high" }] : [],
   }),
   component: Index,
 });
 
 // Свой ритм рядов для каждого раздела (сумма пропорций кадров в ряду), отдельно для компьютера и телефона.
 const desktop = [
-  [3.2, 1.9, 3.8, 2.4],
-  [2.4, 3.6, 1.7, 3.0],
-  [3.0, 1.8, 3.4, 4.0],
-  [2.2, 1.4, 3.4, 2.6],
+  [3.4, 2.2, 4.0, 2.6],
+  [2.6, 3.8, 2.0, 3.2],
+  [3.2, 2.1, 3.6, 4.2],
+  [2.4, 1.6, 3.6, 2.8],
 ];
 const mobile = [
   [1.5, 2.1, 1.3],
@@ -49,17 +50,6 @@ function Rows({ rows, gap, onOpen, className }: { rows: Row[]; gap: string; onOp
 
 function Index() {
   const [open, setOpen] = useState<string | null>(null);
-  const [onDark, setOnDark] = useState(true);
-  const darkEnd = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const el = darkEnd.current;
-    if (!el) return;
-    const update = () => setOnDark(el.getBoundingClientRect().top > 60);
-    update();
-    window.addEventListener("scroll", update, { passive: true });
-    return () => window.removeEventListener("scroll", update);
-  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -71,28 +61,37 @@ function Index() {
 
   return (
     <div className="min-h-screen overflow-x-clip bg-background text-foreground">
-      <header className="bg-ink">
-        {coverImage && (
-          <img src={coverImage.src} alt="Вениамин Моргунов — фотография, видеосъёмка, монтаж" width={1880} height={Math.round(1880 / coverImage.ratio)} className="pointer-events-none block h-auto w-full select-none" draggable={false} fetchPriority="high" />
-        )}
-      </header>
+      <div className="bg-ink text-ink-foreground">
+        <header className="px-4 pt-6 md:pt-10">
+          {coverImage && (
+            <img
+              src={coverImage.src}
+              alt="Вениамин Моргунов — фотография, видеосъёмка, монтаж"
+              width={1880}
+              height={Math.round(1880 / coverImage.ratio)}
+              className="pointer-events-none mx-auto block h-auto max-h-[88svh] w-auto max-w-[min(820px,100%)] select-none"
+              draggable={false}
+              fetchPriority="high"
+            />
+          )}
+        </header>
 
-      <nav className={`z-10 px-4 py-4 md:sticky md:top-0 md:px-12 md:py-4 ${onDark ? "bg-ink text-ink-foreground" : "bg-background text-foreground"}`}>
-        <ul className="mx-auto grid max-w-[1240px] grid-cols-2 gap-x-4 gap-y-3 text-center text-[11px] leading-tight tracking-[0.14em] uppercase md:flex md:justify-center md:gap-x-12 md:text-xs md:tracking-[0.2em]">
-          {sections.map((s) => (
-            <li key={s.id}><a href={`#${s.id}`} className="inline-block py-1 hover:opacity-50">{s.title}</a></li>
-          ))}
-        </ul>
-      </nav>
+        <nav className="px-4 pt-8 pb-6 md:pt-12 md:pb-8">
+          <ul className="mx-auto flex max-w-[1180px] flex-wrap items-baseline justify-center gap-x-7 gap-y-3 text-center text-[clamp(12px,3.4vw,15px)] leading-snug tracking-[0.12em] uppercase md:gap-x-10 md:tracking-[0.18em]">
+            {sections.map((s) => (
+              <li key={s.id}><a href={`#${s.id}`} className="inline-block whitespace-nowrap py-1 hover:opacity-50">{s.title}</a></li>
+            ))}
+          </ul>
+        </nav>
+        {/* Чёткая граница с едва заметным бликом на кромке чёрного */}
+        <div aria-hidden className="h-px bg-white/[0.08] shadow-[0_1px_3px_rgba(255,255,255,0.05)]" />
+      </div>
 
-      <div className="h-[14svh] bg-gradient-to-b from-ink to-background md:h-[20svh]" />
-      <div ref={darkEnd} />
-
-      <main className="px-3 pb-24 md:px-12 md:pb-36">
+      <main className="px-3 pt-10 pb-24 md:px-8 md:pt-14 md:pb-36">
         {sections.map((s, si) => (
-          <section key={s.id} id={s.id} className={`mx-auto max-w-[1240px] scroll-mt-24 ${si ? "pt-20 md:pt-32" : ""}`}>
-            <h2 className="mb-5 text-[13px] tracking-[0.22em] uppercase md:mb-8 md:text-sm md:tracking-[0.26em]">{s.title}</h2>
-            <Rows rows={buildRows(s.photos, desktop[si % 4]!, 1.8)} gap="12px" onOpen={setOpen} className="hidden flex-col md:flex" />
+          <section key={s.id} id={s.id} className={`mx-auto max-w-[1180px] scroll-mt-8 ${si ? "pt-20 md:pt-28" : ""}`}>
+            <h2 className="mb-5 text-[clamp(13px,3.8vw,16px)] tracking-[0.2em] uppercase md:mb-7 md:tracking-[0.24em]">{s.title}</h2>
+            <Rows rows={buildRows(s.photos, desktop[si % 4]!, 2.0, true)} gap="12px" onOpen={setOpen} className="hidden flex-col md:flex" />
             <Rows rows={buildRows(s.photos, mobile[si % 4]!, 1.0)} gap="6px" onOpen={setOpen} className="flex flex-col md:hidden" />
           </section>
         ))}
