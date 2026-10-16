@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - Photos load by folder via import.meta.glob in src/lib/photos.ts (cover in src/assets/cover, categories in src/assets/portfolio/<n-name>, sorted by filename); add/remove files to change the site without code edits.
+- Gallery uses justified rows (src/lib/layout.ts) fed by aspect ratios from the `virtual:photo-sizes` Vite plugin (photo-sizes.plugin.ts) — photos keep original proportions with equal gaps, and adding files needs no code edits.
