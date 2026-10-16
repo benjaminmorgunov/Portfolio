@@ -35,7 +35,8 @@ export function buildRows(photos: Photo[], pattern: number[], minSum: number): R
   let narrow = 0;
   return groups.map((g) => {
     const s = g.reduce((a, p) => a + p.ratio, 0);
-    const width = Math.min(1, s / minSum);
+    const raw = s / minSum;
+    const width = raw > 0.85 ? 1 : raw;
     return { photos: g, width, align: width < 1 ? aligns[narrow++ % aligns.length]! : "center" };
   });
 }

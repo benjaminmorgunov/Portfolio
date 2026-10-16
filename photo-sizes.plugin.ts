@@ -10,7 +10,7 @@ function size(buf: Buffer): [number, number] | null {
   let i = 2;
   while (i < buf.length) {
     if (buf[i] !== 0xff) { i++; continue; }
-    const m = buf[i + 1];
+    const m = buf[i + 1] ?? 0;
     const len = buf.readUInt16BE(i + 2);
     if (m >= 0xc0 && m <= 0xcf && m !== 0xc4 && m !== 0xc8 && m !== 0xcc)
       return [buf.readUInt16BE(i + 7), buf.readUInt16BE(i + 5)];

@@ -85,7 +85,7 @@ function Index() {
         </ul>
       </nav>
 
-      <div className="h-[22svh] bg-gradient-to-b from-ink to-background md:h-[28svh]" />
+      <div className="h-[14svh] bg-gradient-to-b from-ink to-background md:h-[20svh]" />
       <div ref={darkEnd} />
 
       <main className="px-3 pb-24 md:px-12 md:pb-36">
