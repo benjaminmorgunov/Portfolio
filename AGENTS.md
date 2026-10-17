@@ -11,3 +11,5 @@
 
 - Photos load by folder via import.meta.glob in src/lib/photos.ts (cover in src/assets/cover, categories in src/assets/portfolio/<n-name>, sorted by filename); add/remove files to change the site without code edits.
 - Gallery uses justified rows (src/lib/layout.ts) fed by aspect ratios from the `virtual:photo-sizes` Vite plugin (photo-sizes.plugin.ts) — photos keep original proportions with equal gaps, and adding files needs no code edits.
+- Responsive gallery sources are generated at build time with vite-imagetools and matched by source path; retain original files for full-size viewing so adding photos remains automatic.
+- Use CSS at the desktop breakpoint to switch between the text masthead and original mobile/tablet cover; this keeps SSR stable and avoids device-dependent markup.
