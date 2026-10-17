@@ -30,6 +30,7 @@
   --color-background: var(--background);
   --color-ink: var(--ink);
   --color-ink-foreground: var(--ink-foreground);
+  --color-desktop-ink: var(--desktop-ink);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -67,7 +68,10 @@
 :root {
   --radius: 0.625rem;
   --background: oklch(1 0 0);
-  --ink: oklch(0.145 0 0); /* #050505 */
+  --ink: #050505;
+  --desktop-ink: #000000;
+  --edge-line: oklch(1 0 0 / 48%);
+  --edge-glow: 0 -2px 5px oklch(1 0 0 / 24%), 0 -5px 14px oklch(1 0 0 / 12%);
   --ink-foreground: oklch(1 0 0);
   --foreground: oklch(0 0 0);
   --card: oklch(1 0 0);
@@ -100,6 +104,65 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
+}
+
+.portfolio-top { background: var(--ink); }
+.desktop-masthead { display: none; }
+.portfolio-nav { padding: 20px 16px 22px; }
+.portfolio-nav ul {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px 18px;
+  max-width: 1180px;
+  margin-inline: auto;
+  text-align: center;
+  font-size: 13px;
+  line-height: 1.45;
+  text-transform: uppercase;
+}
+.portfolio-nav li { min-width: 0; }
+.portfolio-edge { height: 1px; background: var(--edge-line); box-shadow: var(--edge-glow); }
+.gallery-section { max-width: 1180px; }
+.photo-button {
+  display: block;
+  min-width: 0;
+  height: auto;
+  padding: 0;
+  border-radius: 0;
+  cursor: zoom-in;
+  transition: none;
+}
+.photo-button:hover { background: transparent; }
+@media (min-width: 768px) {
+  .portfolio-nav { padding-block: 26px 28px; }
+  .portfolio-nav ul { font-size: 15px; gap: 18px 28px; }
+}
+@media (min-width: 1280px) {
+  .portfolio-top { background: var(--desktop-ink); }
+  .mobile-cover { display: none; }
+  .desktop-masthead {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: start;
+    gap: 64px;
+    max-width: 1320px;
+    margin-inline: auto;
+    padding: 36px 0 28px;
+  }
+  .masthead-name h1 { width: 365px; line-height: 1.04; }
+  .masthead-name h1 span { display: block; }
+  .name-first { font-size: 52px; }
+  .name-last { font-size: 51px; }
+  .masthead-name p { margin-top: 14px; font-size: 13px; white-space: nowrap; }
+  .masthead-socials { display: grid; gap: 12px; padding-top: 4px; font-size: 16px; }
+  .masthead-socials a { display: flex; align-items: center; gap: 10px; }
+  .masthead-socials svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .masthead-year { justify-self: end; font-size: 24px; line-height: 1.1; }
+  .desktop-masthead { width: calc(100% - 64px); }
+  .portfolio-nav { padding: 18px 32px 28px; }
+  .portfolio-nav ul { grid-template-columns: repeat(4, auto); max-width: 1320px; justify-content: space-between; gap: 24px; }
+  .portfolio-nav a { white-space: nowrap; }
+  .gallery-section { max-width: 1320px; }
 }
 
 .dark {
