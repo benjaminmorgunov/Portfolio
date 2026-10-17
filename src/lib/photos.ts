@@ -2,7 +2,7 @@
 // Порядок — по имени файла (01.jpg, 02.jpg …). Пропорции считываются из самих файлов.
 import ratios from "virtual:photo-sizes";
 
-export type Photo = { src: string; ratio: number; srcSet?: string };
+export type Photo = { src: string; ratio: number; srcSet?: string | undefined };
 type G = Record<string, string>;
 // Small, high-quality display variants; originals remain available in the lightbox.
 const responsive = import.meta.glob("/src/assets/portfolio/**/*.{jpg,jpeg,png,JPG,JPEG,PNG}", {
