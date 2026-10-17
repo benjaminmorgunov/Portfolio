@@ -13,7 +13,7 @@ export const Route = createFileRoute("/")({
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
-    links: coverImage ? [{ rel: "preload", as: "image", href: coverImage.src, fetchpriority: "high" }] : [],
+    links: coverImage ? [{ rel: "preload", as: "image", href: coverImage.src, fetchPriority: "high" }] : [],
   }),
   component: Index,
 });
