@@ -152,7 +152,7 @@
   .masthead-name h1 { width: 365px; line-height: 1.04; }
   .masthead-name h1 span { display: block; }
   .name-first { font-size: 52px; }
-  .name-last { font-size: 51px; }
+  .name-last { font-size: 54px; }
   .masthead-name p { margin-top: 14px; font-size: 13px; white-space: nowrap; }
   .masthead-socials { display: grid; gap: 12px; padding-top: 4px; font-size: 16px; }
   .masthead-socials a { display: flex; align-items: center; gap: 10px; }
