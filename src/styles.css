@@ -168,7 +168,7 @@
   .masthead-name h1 span { display: block; }
   .name-first { font-size: 52px; }
   .name-last { font-size: 54px; }
-  .masthead-name p { margin-top: 14px; width: 365px; font-size: 14.8px; letter-spacing: 0.06em; white-space: nowrap; }
+  .masthead-name p { margin-top: 14px; width: 365px; font-size: 13.2px; letter-spacing: 0.06em; white-space: nowrap; }
   .masthead-socials { display: grid; gap: 12px; padding-top: 4px; font-size: 19.2px; }
   .masthead-socials a { display: flex; align-items: center; gap: 10px; }
   .masthead-socials svg { width: 21.6px; height: 21.6px; flex-shrink: 0; }
