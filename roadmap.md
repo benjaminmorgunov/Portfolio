@@ -6,6 +6,6 @@
 - [x] Verify desktop, tablet and phone presentation and interactions.
 
 # Desktop refinements
-- [ ] Widen photo side fields and enlarge gallery headings by 20% only on desktop.
-- [ ] Equalise gaps between masthead blocks and enlarge social text/icons by 20%.
-- [ ] Verify desktop changes and unchanged phone/tablet presentation.
+- [x] Widen photo side fields and enlarge gallery headings by 20% only on desktop.
+- [x] Equalise gaps between masthead blocks and enlarge social text/icons by 20%.
+- [x] Verify desktop changes and unchanged phone/tablet presentation.
