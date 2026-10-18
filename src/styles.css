@@ -142,9 +142,10 @@
   .mobile-cover { display: none; }
   .desktop-masthead {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    grid-template-columns: max-content max-content max-content;
+    justify-content: space-between;
     align-items: start;
-    gap: 64px;
+    gap: 0;
     max-width: 1320px;
     margin-inline: auto;
     padding: 36px 0 28px;
@@ -154,15 +155,16 @@
   .name-first { font-size: 52px; }
   .name-last { font-size: 54px; }
   .masthead-name p { margin-top: 14px; font-size: 13px; white-space: nowrap; }
-  .masthead-socials { display: grid; gap: 12px; padding-top: 4px; font-size: 16px; }
+  .masthead-socials { display: grid; gap: 12px; padding-top: 4px; font-size: 19.2px; }
   .masthead-socials a { display: flex; align-items: center; gap: 10px; }
-  .masthead-socials svg { width: 18px; height: 18px; flex-shrink: 0; }
+  .masthead-socials svg { width: 21.6px; height: 21.6px; flex-shrink: 0; }
   .masthead-year { justify-self: end; font-size: 24px; line-height: 1.1; }
   .desktop-masthead { width: calc(100% - 64px); }
   .portfolio-nav { padding: 18px 32px 28px; }
   .portfolio-nav ul { grid-template-columns: repeat(4, auto); max-width: 1320px; justify-content: space-between; gap: 24px; }
   .portfolio-nav a { white-space: nowrap; }
-  .gallery-section { max-width: 1320px; }
+  .gallery-section { width: calc(100% - 128px); max-width: 1080px; }
+  .gallery-section h2 { font-size: 19.2px; }
 }
 
 .dark {
