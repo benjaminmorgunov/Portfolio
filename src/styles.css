@@ -70,8 +70,12 @@
   --background: oklch(1 0 0);
   --ink: #050505;
   --desktop-ink: #000000;
-  --edge-line: oklch(1 0 0 / 48%);
-  --edge-glow: 0 -2px 5px oklch(1 0 0 / 24%), 0 -5px 14px oklch(1 0 0 / 12%);
+  --edge-line: oklch(1 0 0 / 70%);
+  --edge-glow:
+    0 -1px 2px oklch(1 0 0 / 55%),
+    0 -3px 8px oklch(1 0 0 / 32%),
+    0 -8px 20px oklch(1 0 0 / 18%),
+    0 -18px 44px oklch(1 0 0 / 9%);
   --ink-foreground: oklch(1 0 0);
   --foreground: oklch(0 0 0);
   --card: oklch(1 0 0);
@@ -121,7 +125,17 @@
   text-transform: uppercase;
 }
 .portfolio-nav li { min-width: 0; }
-.portfolio-edge { height: 1px; background: var(--edge-line); box-shadow: var(--edge-glow); }
+.portfolio-edge { position: relative; height: 1px; background: var(--edge-line); box-shadow: var(--edge-glow); }
+.portfolio-edge::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 1px;
+  height: 34px;
+  pointer-events: none;
+  background: linear-gradient(to top, oklch(1 0 0 / 22%), oklch(1 0 0 / 10%) 35%, oklch(1 0 0 / 4%) 65%, transparent);
+}
 .gallery-section { max-width: 1180px; }
 .photo-button {
   display: block;
@@ -142,7 +156,7 @@
   .mobile-cover { display: none; }
   .desktop-masthead {
     display: grid;
-    grid-template-columns: repeat(4, max-content);
+    grid-template-columns: repeat(3, max-content);
     justify-content: space-between;
     align-items: start;
     gap: 0;
@@ -154,7 +168,7 @@
   .masthead-name h1 span { display: block; }
   .name-first { font-size: 52px; }
   .name-last { font-size: 54px; }
-  .masthead-name p { margin-top: 14px; font-size: 17.6px; white-space: nowrap; }
+  .masthead-name p { margin-top: 14px; width: 365px; font-size: 14.8px; letter-spacing: 0.06em; white-space: nowrap; }
   .masthead-socials { display: grid; gap: 12px; padding-top: 4px; font-size: 19.2px; }
   .masthead-socials a { display: flex; align-items: center; gap: 10px; }
   .masthead-socials svg { width: 21.6px; height: 21.6px; flex-shrink: 0; }
