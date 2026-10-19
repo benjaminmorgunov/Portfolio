@@ -43,9 +43,18 @@ function Rows({ rows, gap, onOpen, className }: { rows: Row[]; gap: string; onOp
             const share = p.ratio / r.photos.reduce((total, photo) => total + photo.ratio, 0);
             const gutters = (r.photos.length - 1) * Number.parseFloat(gap);
             const sizes = `(min-width: 1280px) ${(1080 - gutters) * share}px, (min-width: 768px) calc((100vw - ${64 + gutters}px) * ${share}), calc((100vw - ${24 + gutters}px) * ${share})`;
+            const img = <img src={p.src} srcSet={p.srcSet} sizes={sizes} alt="" loading="lazy" decoding="async" draggable={false} className="block h-full w-full" />;
+            const style = { flex: `${p.ratio} 1 0`, aspectRatio: String(p.ratio) };
+            if (p.href) {
+              return (
+                <a key={p.src} href={p.href} target="_blank" rel="noopener noreferrer" className="photo-button block" style={style} aria-label="Смотреть видео">
+                  {img}
+                </a>
+              );
+            }
             return (
-              <Button key={p.src} variant="ghost" type="button" onClick={() => onOpen(p.src)} className="photo-button" style={{ flex: `${p.ratio} 1 0`, aspectRatio: String(p.ratio) }} aria-label="Открыть фотографию">
-                <img src={p.src} srcSet={p.srcSet} sizes={sizes} alt="" loading="lazy" decoding="async" className="block h-full w-full" />
+              <Button key={p.src} variant="ghost" type="button" onClick={() => onOpen(p.src)} className="photo-button" style={style} aria-label="Открыть фотографию">
+                {img}
               </Button>
             );
           })}
