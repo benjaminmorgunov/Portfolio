@@ -123,6 +123,11 @@ function Index() {
         ))}
       </main>
 
+      <footer className="px-3 pb-6 text-center text-[10px] leading-snug text-foreground/45 md:px-8 md:pb-8 md:text-[11px]">
+        <p>Instagram принадлежит компании Meta, признанной экстремистской организацией и запрещённой на территории Российской Федерации.</p>
+      </footer>
+
+
       {open && (
         <div role="dialog" aria-modal="true" aria-label="Фотография" onClick={() => setOpen(null)} className="fixed inset-0 z-50 flex cursor-zoom-out items-center justify-center bg-background p-3 md:p-10">
           <img src={open} alt="" className="max-h-full max-w-full object-contain" />
