@@ -123,7 +123,7 @@ function Index() {
         ))}
       </main>
 
-      <footer className="px-3 pb-6 text-center text-[10px] leading-snug text-foreground/45 md:px-8 md:pb-8 md:text-[11px]">
+      <footer className="legal-note px-3 pb-6 text-center text-[8.8px] leading-snug text-foreground/45 md:px-8 md:pb-8 md:text-[11px]">
         <p>Instagram принадлежит компании Meta, признанной экстремистской организацией и запрещённой на территории Российской Федерации.</p>
       </footer>
 

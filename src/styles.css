@@ -177,7 +177,9 @@
   .portfolio-nav { padding: 20px 32px 30px; }
   .portfolio-nav ul { grid-template-columns: repeat(4, auto); max-width: 1320px; justify-content: space-between; gap: 32px; font-size: 16px; }
   .portfolio-nav a { white-space: nowrap; }
-  .gallery-section { width: calc(100% - 128px); max-width: 1080px; }
+  /* Side fields are 10% wider than the previous min(100% - 128px, 1080px) container; % is main's content box (viewport - 64px). */
+  .gallery-section { width: calc(1.1 * min(100% - 128px, 1080px) - 0.1 * (100% + 64px)); max-width: none; }
+  .legal-note { font-size: 12.1px; }
   .gallery-section h2 { font-size: 19.2px; }
 }
 
