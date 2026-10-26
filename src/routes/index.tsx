@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { coverImage, sections } from "@/lib/photos";
 import { buildRows, type Row } from "@/lib/layout";
 import { Button } from "@/components/ui/button";
@@ -66,6 +66,34 @@ function Rows({ rows, gap, onOpen, className }: { rows: Row[]; gap: string; onOp
 
 function Index() {
   const [open, setOpen] = useState<string | null>(null);
+  const nameLast = useRef<HTMLSpanElement>(null);
+  const roleLine = useRef<HTMLParagraphElement>(null);
+
+  // На компьютере подпись подгоняется по фактической ширине на экране под фамилию (шрифт у разных систем разный).
+  useEffect(() => {
+    const textWidth = (el: HTMLElement) => {
+      const r = document.createRange();
+      r.selectNodeContents(el);
+      return r.getBoundingClientRect().width;
+    };
+    const fit = () => {
+      const name = nameLast.current, line = roleLine.current;
+      if (!name || !line) return;
+      line.style.fontSize = "";
+      if (!window.matchMedia("(min-width: 1280px)").matches) return;
+      const target = textWidth(name);
+      const cs = getComputedStyle(line);
+      const size = Number.parseFloat(cs.fontSize);
+      const spacing = Number.parseFloat(cs.letterSpacing) || 0;
+      const visible = textWidth(line) - spacing; // без хвостового межбуквенного интервала
+      if (!target || !visible) return;
+      line.style.fontSize = `${(size * target) / visible}px`;
+    };
+    fit();
+    document.fonts?.ready.then(fit);
+    window.addEventListener("resize", fit);
+    return () => window.removeEventListener("resize", fit);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -93,8 +121,8 @@ function Index() {
         </header>
         <header className="desktop-masthead">
           <div className="masthead-name">
-            <h1><span className="name-first">ВЕНИАМИН</span><span className="name-last">МОРГУНОВ</span></h1>
-            <p>ФОТОГРАФИЯ / ВИДЕОСЪЁМКА / МОНТАЖ</p>
+            <h1><span className="name-first">ВЕНИАМИН</span><span ref={nameLast} className="name-last">МОРГУНОВ</span></h1>
+            <p ref={roleLine}>ФОТОГРАФИЯ / ВИДЕОСЪЁМКА / МОНТАЖ</p>
           </div>
           <div className="masthead-socials">
             <a href="https://www.instagram.com/batterypoweredlighter/" target="_blank" rel="noopener noreferrer"><Instagram aria-hidden="true" /><span>@batterypoweredlighter</span></a>
@@ -113,7 +141,7 @@ function Index() {
         <div aria-hidden className="portfolio-edge" />
       </div>
 
-      <main className="px-3 pt-8 pb-24 md:px-8 md:pt-14 md:pb-36">
+      <main className="px-3 pt-8 pb-12 md:px-8 md:pt-14 md:pb-18">
         {sections.map((s, si) => (
           <section key={s.id} id={s.id} className={`gallery-section mx-auto scroll-mt-8 ${si ? "pt-20 md:pt-28" : ""}`}>
             <h2 className="mb-5 text-[15px] uppercase md:mb-7 md:text-[16px]">{s.title}</h2>
