@@ -177,9 +177,9 @@
   .portfolio-nav { padding: 20px 32px 30px; }
   .portfolio-nav ul { grid-template-columns: repeat(4, auto); max-width: 1320px; justify-content: space-between; gap: 32px; font-size: 16px; }
   .portfolio-nav a { white-space: nowrap; }
-  /* Side fields are 10% wider than the previous min(100% - 128px, 1080px) container; % is main's content box (viewport - 64px). */
-  .gallery-section { width: calc(1.1 * min(100% - 128px, 1080px) - 0.1 * (100% + 64px)); max-width: none; }
-  .legal-note { font-size: 12.1px; }
+  /* Side fields are 1.21x (two +10% steps) those of the original min(100% - 128px, 1080px) container; % is main's content box (viewport - 64px). */
+  .gallery-section { width: calc(1.21 * min(100% - 128px, 1080px) - 0.21 * (100% + 64px)); max-width: none; }
+  .legal-note { font-family: Calibri, Carlito, "Segoe UI", Arial, sans-serif; font-size: 15.7px; }
   .gallery-section h2 { font-size: 19.2px; }
 }
 
