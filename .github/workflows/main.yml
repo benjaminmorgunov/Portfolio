@@ -1,4 +1,4 @@
-name: Deploy Lovable Vite site to Pages (Bun)
+name: Deploy Lovable TanStack site to Pages
 
 on:
   push:
@@ -27,11 +27,18 @@ jobs:
       - name: Install dependencies
         run: bun install
       - name: Build
-        run: bun run build --base="./"
+        run: |
+          bun run build
+          if [ -f ".output/public/_shell.html" ] && [ ! -f ".output/public/index.html" ]; then
+            cp .output/public/_shell.html .output/public/index.html
+          fi
+          if [ -f ".output/public/index.html" ]; then
+            cp .output/public/index.html .output/public/404.html
+          fi
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: './.output/public'
 
   deploy:
     environment:
